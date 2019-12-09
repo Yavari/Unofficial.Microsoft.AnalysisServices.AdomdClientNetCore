@@ -300,7 +300,7 @@ namespace Microsoft.AnalysisServices.AdomdClient
 					}
 					this.authorizationHeader = "MsoID " + MsoIDAuthenticationProvider.Instance.Authenticate(connectionInfo.UserID, connectionInfo.Password);
 				}
-				else if (connectionInfo.UserID == null)
+				else if (connectionInfo.UserID == null && false /* WindowIdentity throws PNSE on Linux */)
 				{
 					this.logonWindowsIdentity = WindowsIdentity.GetCurrent();
 					this.credentials = CredentialCache.DefaultCredentials;
@@ -308,10 +308,10 @@ namespace Microsoft.AnalysisServices.AdomdClient
 				}
 				else
 				{
-					this.credentials = new NetworkCredential(connectionInfo.UserID, connectionInfo.Password);
+					this.credentials = new NetworkCredential(connectionInfo.UserID ?? "", connectionInfo.Password ?? "");
 					SHA1Managed sHA1Managed = new SHA1Managed();
-					byte[] bytes = sHA1Managed.ComputeHash(Encoding.UTF8.GetBytes(connectionInfo.Password));
-					this.connectionSecureGroupName = connectionInfo.UserID.Replace(";", ";;") + ";:" + Encoding.Default.GetString(bytes).Replace(";", ";;");
+					byte[] bytes = sHA1Managed.ComputeHash(Encoding.UTF8.GetBytes(connectionInfo.Password ?? ""));
+					this.connectionSecureGroupName = (connectionInfo.UserID??"").Replace(";", ";;") + ";:" + Encoding.Default.GetString(bytes).Replace(";", ";;");
 				}
 				if (!string.IsNullOrEmpty(connectionInfo.ClientCertificateThumbprint))
 				{
