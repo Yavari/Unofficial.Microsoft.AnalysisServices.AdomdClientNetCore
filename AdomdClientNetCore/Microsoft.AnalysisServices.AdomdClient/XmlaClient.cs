@@ -2224,7 +2224,7 @@ namespace Microsoft.AnalysisServices.AdomdClient
 			//}
 			//if (this.TryGetConfigValue<int>("AS_EndSessionTimeout", out num, (int val) => val >= 0 || val == -1))
 			//{
-				XmlaClient.EndSessionTimeout = num;
+				//XmlaClient.EndSessionTimeout = num;
 			//}
 		}
 
