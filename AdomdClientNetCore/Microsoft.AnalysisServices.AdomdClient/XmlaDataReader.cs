@@ -1019,11 +1019,11 @@ namespace Microsoft.AnalysisServices.AdomdClient
 		private object ReadColumnValue(int ordinal)
 		{
 		    //Type type = FormattersHelpers.GetElementType(this.xmlReader, "http://www.w3.org/2001/XMLSchema-instance", null);
-		    Type type = FormattersHelpers.GetElementType(this.xmlReader, "http://www.w3.org/2001/XMLSchema-instance", typeof(object));
-            if (type == null)
-			{
-				type = this.GetFieldType(ordinal);
-			}
+		    //Type type = FormattersHelpers.GetElementType(this.xmlReader, "http://www.w3.org/2001/XMLSchema-instance", typeof(object));
+            //if (type == null)
+			//{
+            var type = this.GetFieldType(ordinal);
+			//}
 			XmlaDataReader xmlaDataReader = this.nestedDataReaders[ordinal];
 			object obj;
 			if (xmlaDataReader == null)
